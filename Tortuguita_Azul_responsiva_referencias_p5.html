@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐢 Tortuguita Azul — Guardianes del Océano</title>
+
+<style>
+:root{
+  --azul:#0794c7;
+  --azul2:#5de0f2;
+  --profundo:#063b67;
+  --turquesa:#19d3b5;
+  --coral:#ff7b72;
+  --amarillo:#ffd95a;
+  --blanco:#ffffff;
+  --texto:#123b55;
+  --verde:#55c878;
+  --rojo:#ef6262;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+  color:var(--texto);
+  background:
+    radial-gradient(circle at 10% 10%,#ffffff 0 5%,transparent 6%),
+    linear-gradient(#dffbff,#b4eff5);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* BURBUJAS */
+
+.bubble{
+  position:fixed;
+  bottom:-80px;
+  border-radius:50%;
+  background:rgba(255,255,255,.45);
+  animation:subir linear infinite;
+  pointer-events:none;
+}
+
+.b1{left:5%;width:22px;height:22px;animation-duration:10s}
+.b2{left:18%;width:12px;height:12px;animation-duration:7s}
+.b3{left:32%;width:30px;height:30px;animation-duration:12s}
+.b4{left:55%;width:16px;height:16px;animation-duration:8s}
+.b5{left:72%;width:28px;height:28px;animation-duration:11s}
+.b6{left:90%;width:14px;height:14px;animation-duration:9s}
+
+@keyframes subir{
+  to{
+    transform:translateY(-115vh);
+    opacity:0;
+  }
+}
+
+/* CABECERA */
+
+header{
+  padding:25px 20px;
+  text-align:center;
+  color:white;
+  background:linear-gradient(135deg,#087db1,#09bcae);
+  box-shadow:0 5px 20px rgba(0,70,100,.2);
+}
+
+header h1{
+  margin:0;
+  font-size:clamp(2rem,5vw,3.5rem);
+  text-shadow:3px 3px #06658b;
+}
+
+header p{
+  margin:8px auto 0;
+  max-width:700px;
+  font-size:1.05rem;
+}
+
+/* CONTENEDOR */
+
+.app{
+  width:min(1200px,94%);
+  margin:25px auto;
+}
+
+/* ESTADISTICAS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.stat{
+  background:white;
+  border-radius:18px;
+  padding:13px;
+  box-shadow:0 6px 15px rgba(0,80,120,.12);
+}
+
+.stat-title{
+  display:flex;
+  justify-content:space-between;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+.bar{
+  height:12px;
+  border-radius:20px;
+  background:#dbeef2;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:70%;
+  border-radius:20px;
+  transition:.5s;
+}
+
+.hunger{background:#ffb347}
+.energy{background:#8d7cff}
+.happiness{background:#ff72aa}
+.clean{background:#22cdb4}
+
+/* OCEANO */
+
+.ocean{
+  position:relative;
+  min-height:520px;
+  border-radius:30px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 25% 25%,rgba(255,255,255,.25) 0 5px,transparent 6px),
+    linear-gradient(#48dff1 0%,#159fce 45%,#07568b 100%);
+  box-shadow:
+    inset 0 0 60px rgba(0,30,90,.25),
+    0 10px 25px rgba(0,70,100,.2);
+}
+
+/* SOL */
+
+.sun{
+  position:absolute;
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#ffe77b;
+  top:30px;
+  right:40px;
+  box-shadow:0 0 40px #fff2a8;
+}
+
+/* TORTUGA */
+
+.turtle{
+  position:absolute;
+  left:50%;
+  top:48%;
+  transform:translate(-50%,-50%);
+  width:240px;
+  height:180px;
+  transition:.5s;
+  cursor:pointer;
+  z-index:10;
+}
+
+.turtle:hover{
+  transform:translate(-50%,-50%) scale(1.05) rotate(-2deg);
+}
+
+.shell{
+  position:absolute;
+  width:150px;
+  height:120px;
+  left:45px;
+  top:30px;
+  border-radius:52% 48% 48% 52%;
+  background:
+    radial-gradient(circle at 35% 35%,#89e76e 0 13%,transparent 14%),
+    radial-gradient(circle at 65% 35%,#68ca5b 0 13%,transparent 14%),
+    radial-gradient(circle at 50% 70%,#54b94f 0 15%,transparent 16%),
+    #35a94f;
+  border:8px solid #237e45;
+  box-shadow:inset 0 -10px 0 rgba(0,0,0,.12),0 12px 10px rgba(0,0,0,.15);
+}
+
+.head{
+  position:absolute;
+  right:0;
+  top:55px;
+  width:70px;
+  height:60px;
+  border-radius:55% 45% 50% 50%;
+  background:#65d46b;
+  border:5px solid #25884c;
+}
+
+.eye{
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#173b2e;
+  top:17px;
+  right:18px;
+}
+
+.mouth{
+  position:absolute;
+  width:22px;
+  height:10px;
+  border-bottom:3px solid #235c3b;
+  border-radius:50%;
+  right:12px;
+  top:34px;
+}
+
+.flipper{
+  position:absolute;
+  width:75px;
+  height:35px;
+  background:#5bd367;
+  border:5px solid #278c4d;
+  border-radius:60%;
+}
+
+.f1{left:0;top:35px;transform:rotate(-25deg)}
+.f2{left:15px;bottom:5px;transform:rotate(20deg)}
+.f3{right:40px;bottom:0;transform:rotate(-20deg)}
+
+.tail{
+  position:absolute;
+  left:20px;
+  top:78px;
+  width:40px;
+  height:30px;
+  background:#56c95f;
+  clip-path:polygon(100% 50%,0 0,0 100%);
+}
+
+/* ANIMACION */
+
+.swim{
+  animation:nadar 2.5s ease-in-out infinite;
+}
+
+@keyframes nadar{
+  0%,100%{transform:translate(-50%,-50%) rotate(-2deg)}
+  50%{transform:translate(-50%,-56%) rotate(2deg)}
+}
+
+/* ELEMENTOS MARINOS */
+
+.fish{
+  position:absolute;
+  font-size:42px;
+  animation:nadarPez 8s linear infinite;
+}
+
+.fish1{top:25%;left:-60px}
+.fish2{top:35%;left:-120px;animation-delay:2s}
+.fish3{top:15%;left:-200px;animation-delay:4s}
+
+@keyframes nadarPez{
+  from{transform:translateX(-100px)}
+  to{transform:translateX(130vw)}
+}
+
+.coral{
+  position:absolute;
+  bottom:0;
+  width:95px;
+  height:145px;
+  z-index:5;
+  filter:drop-shadow(0 8px 5px rgba(0,35,65,.18));
+  transform-origin:bottom center;
+  animation:coralBalance 3s ease-in-out infinite;
+}
+.coral .branch{
+  position:absolute;
+  bottom:0;
+  width:18px;
+  border-radius:20px 20px 4px 4px;
+  background:linear-gradient(90deg,#ff6f91,#ff9b72);
+  box-shadow:inset 5px 0 rgba(255,255,255,.18);
+}
+.coral .branch:before,.coral .branch:after{
+  content:"";
+  position:absolute;
+  width:18px;
+  height:55px;
+  border-radius:20px;
+  background:inherit;
+}
+.coral .branch:before{left:-18px;bottom:35px;transform:rotate(-32deg)}
+.coral .branch:after{right:-18px;bottom:52px;transform:rotate(32deg)}
+.coral .b1{left:38px;height:125px}
+.coral .b2{left:18px;height:92px;transform:rotate(-12deg)}
+.coral .b3{right:18px;height:105px;transform:rotate(12deg)}
+.coral .tip{
+  position:absolute;
+  width:22px;height:22px;border-radius:50%;
+  background:#ffb08d;
+}
+.coral .t1{left:27px;top:16px}.coral .t2{left:10px;top:43px}.coral .t3{right:7px;top:34px}
+
+@keyframes coralBalance{
+  0%,100%{transform:rotate(-1deg)}
+  50%{transform:rotate(2deg)}
+}
+
+.jellyfish{
+  position:absolute;
+  width:78px;height:92px;
+  z-index:4;
+  animation:medusaFloat 4s ease-in-out infinite;
+}
+.jellyfish .cap{
+  position:absolute;
+  left:8px;top:0;
+  width:62px;height:45px;
+  border-radius:50% 50% 42% 42%;
+  background:linear-gradient(135deg,#e8a7ff,#a77bff);
+  border:3px solid rgba(255,255,255,.55);
+  box-shadow:0 0 20px rgba(214,158,255,.65);
+}
+.jellyfish .cap:after{
+  content:"";
+  position:absolute;
+  left:10px;top:7px;width:25px;height:12px;
+  border-radius:50%;
+  background:rgba(255,255,255,.35);
+  transform:rotate(-15deg);
+}
+.jellyfish .tentacle{
+  position:absolute;top:38px;width:9px;height:48px;
+  border-radius:0 0 15px 15px;
+  border-left:3px solid #d9b8ff;
+  border-bottom:3px solid #d9b8ff;
+}
+.jellyfish .t1{left:17px}.jellyfish .t2{left:34px;height:57px}.jellyfish .t3{left:51px;height:43px}
+
+.jelly1{left:70%;top:20%;animation-delay:.5s}
+.jelly2{left:18%;top:43%;transform:scale(.78);animation-delay:2s}
+
+@keyframes medusaFloat{
+  0%,100%{transform:translateY(0) rotate(-3deg)}
+  50%{transform:translateY(-18px) rotate(4deg)}
+}
+
+/* BASURA */
+
+.trash{
+  position:absolute;
+  font-size:45px;
+  cursor:pointer;
+  user-select:none;
+  transition:.3s;
+}
+
+.trash:hover{
+  transform:scale(1.2) rotate(10deg);
+}
+
+.trash1{left:12%;top:60%}
+.trash2{right:18%;top:65%}
+.trash3{left:42%;top:78%}
+.trash4{right:35%;top:25%}
+
+/* MENSAJE */
+
+.turtle-message{
+  position:absolute;
+  top:20px;
+  left:25px;
+  max-width:360px;
+  background:white;
+  border-radius:20px;
+  padding:15px 18px;
+  box-shadow:0 8px 20px rgba(0,50,80,.2);
+  z-index:20;
+}
+
+.turtle-message strong{
+  color:#087cae;
+}
+
+/* CONTROLES */
+
+.controls{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  margin:20px 0;
+}
+
+button{
+  border:0;
+  border-radius:18px;
+  padding:15px 10px;
+  background:white;
+  color:var(--texto);
+  font-size:1rem;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 5px 12px rgba(0,70,100,.12);
+  transition:.2s;
+}
+
+button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(0,70,100,.2);
+}
+
+button:active{
+  transform:scale(.96);
+}
+
+.primary{
+  background:linear-gradient(135deg,#10cdb1,#069bd1);
+  color:white;
+}
+
+/* TARJETAS */
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.card{
+  background:rgba(255,255,255,.95);
+  border-radius:25px;
+  padding:22px;
+  box-shadow:0 8px 20px rgba(0,70,100,.12);
+}
+
+.card h2{
+  margin-top:0;
+  color:#087cae;
+}
+
+.fact{
+  min-height:110px;
+  background:linear-gradient(135deg,#e9ffff,#d9f8ff);
+  border-left:6px solid var(--turquesa);
+  border-radius:15px;
+  padding:16px;
+  font-size:1.05rem;
+}
+
+.fact-number{
+  font-size:2rem;
+  font-weight:bold;
+  color:#087cae;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.badge{
+  background:#fff1a9;
+  padding:10px 14px;
+  border-radius:50px;
+  font-weight:bold;
+}
+
+/* DECORACION */
+
+.decorations{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.decorations button{
+  padding:10px 14px;
+  background:#e8fbff;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,40,70,.65);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:100;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:min(550px,100%);
+  background:white;
+  border-radius:28px;
+  padding:25px;
+  text-align:center;
+  animation:aparecer .3s ease;
+}
+
+@keyframes aparecer{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+.food{
+  font-size:65px;
+  cursor:pointer;
+  margin:15px;
+  transition:.2s;
+}
+
+.food:hover{
+  transform:scale(1.2);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:800px){
+  .stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .controls{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .ocean{
+    min-height:600px;
+  }
+
+  .turtle{
+    transform:translate(-50%,-50%) scale(.8);
+  }
+
+  .turtle:hover{
+    transform:translate(-50%,-50%) scale(.85);
+  }
+}
+
+@media(max-width:480px){
+  .coral{transform:scale(.72);transform-origin:bottom center}
+  .jellyfish{transform:scale(.72)}
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .controls{
+    grid-template-columns:1fr;
+  }
+
+  .turtle-message{
+    left:10px;
+    right:10px;
+    font-size:.9rem;
+  }
+}
+
+/* VENTANA CENTRAL DE ACCIONES */
+.game-modal{position:fixed;inset:0;background:rgba(3,35,60,.72);backdrop-filter:blur(5px);display:none;align-items:center;justify-content:center;padding:20px;z-index:300}
+.game-modal.show{display:flex}
+.game-modal-box{width:min(520px,94vw);background:linear-gradient(145deg,#fff,#eafcff);border-radius:30px;padding:28px;text-align:center;box-shadow:0 20px 60px rgba(0,35,70,.35);border:4px solid rgba(255,255,255,.8);animation:modalPop .3s ease}
+.game-modal-icon{font-size:4rem;line-height:1;margin-bottom:8px;animation:iconBounce .8s ease}
+.game-modal-box h2{margin:8px 0;color:#087cae;font-size:clamp(1.5rem,4vw,2rem)}
+.game-modal-box p{font-size:1.05rem;line-height:1.55;margin:12px auto 20px;max-width:440px}
+.game-modal-box .reward{display:inline-block;margin:0 0 18px;padding:8px 14px;border-radius:30px;background:#fff1a9;font-weight:bold;color:#765900}
+.game-modal-box .continue{background:linear-gradient(135deg,#10cdb1,#069bd1);color:#fff;min-width:190px}
+.clickable-marine{cursor:pointer}
+@keyframes modalPop{from{transform:scale(.72) translateY(15px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+@keyframes iconBounce{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+/* GIRO AL JUGAR */
+@keyframes giroAzul{
+  0%{
+    transform:translate(-50%,-50%) rotate(0deg);
+  }
+
+  30%{
+    transform:translate(-50%,-50%) rotate(180deg) scale(1.05);
+  }
+
+  60%{
+    transform:translate(-50%,-50%) rotate(360deg) scale(1.08);
+  }
+
+  100%{
+    transform:translate(-50%,-50%) rotate(360deg) scale(1);
+  }
+}
+
+/* ACERCARSE AL ABRAZAR */
+@keyframes acercarAzul{
+  0%{
+    transform:translate(-50%,-50%) scale(1);
+  }
+
+  45%{
+    transform:translate(-50%,-50%) scale(1.45);
+  }
+
+  70%{
+    transform:translate(-50%,-50%) scale(1.55);
+  }
+
+  100%{
+    transform:translate(-50%,-50%) scale(1);
+  }
+}
+
+.turtle.giro{
+  animation:giroAzul .9s ease !important;
+}
+
+.turtle.acercar{
+  animation:acercarAzul 1.2s ease !important;
+}
+
+/* ===== DOS PLANTILLAS RESPONSIVAS: ESCRITORIO Y MÓVIL ===== */
+:root { --app-max: 1200px; }
+.app { width: min(var(--app-max), calc(100% - 32px)); }
+.ocean { isolation: isolate; }
+#oceanSketch {
+  position:absolute; inset:0; width:100%; height:100%;
+  z-index:1; pointer-events:none; opacity:.72;
+}
+.ocean > :not(#oceanSketch) { position: relative; }
+.ocean .sun, .ocean .turtle, .ocean .turtle-message,
+.ocean .fish, .ocean .coral, .ocean .jellyfish, .ocean .trash { position:absolute; }
+.theme-tools {
+  display:flex; justify-content:center; gap:10px; flex-wrap:wrap;
+  margin: 12px auto 0;
+}
+.theme-tools button { padding:10px 14px; }
+.references { margin-top:20px; }
+.references ul { padding-left:22px; line-height:1.8; overflow-wrap:anywhere; }
+.references a { color:#087cae; font-weight:700; text-decoration-thickness:2px; text-underline-offset:3px; }
+.references a:hover { color:#063b67; }
+.references a:focus-visible, button:focus-visible {
+  outline:3px solid #ff7b72; outline-offset:3px;
+}
+body.theme-deep {
+  --texto:#eafaff;
+  background:linear-gradient(140deg,#062b49,#0b6178);
+}
+body.theme-deep .stat, body.theme-deep .card,
+body.theme-deep .turtle-message, body.theme-deep .references a {
+  color:#123b55;
+}
+body.theme-deep .card { background:#f4fdff; }
+body.theme-deep header { background:linear-gradient(135deg,#082e55,#075e69); }
+@media (min-width: 801px) {
+  .app { width:min(var(--app-max),94%); }
+  .ocean { min-height:520px; }
+  .stats { grid-template-columns:repeat(4,minmax(0,1fr)); }
+  .controls { grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 800px) {
+  header { padding:22px 16px; }
+  header p { font-size:1rem; }
+  .app { width:calc(100% - 24px); margin:16px auto; }
+  .stats { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .controls { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .grid { grid-template-columns:1fr; }
+  .ocean { min-height:540px; border-radius:22px; }
+  .turtle-message { max-width:calc(100% - 20px); }
+  .card { padding:18px; }
+}
+@media (max-width: 480px) {
+  header h1 { font-size:2rem; }
+  .stats { gap:8px; }
+  .stat { padding:10px; border-radius:14px; }
+  .stat-title { font-size:.88rem; }
+  .controls { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .controls button { min-height:54px; padding:12px 8px; font-size:.92rem; }
+  .ocean { min-height:500px; }
+  .turtle { scale:.72; }
+  .turtle-message { top:12px; left:10px; right:10px; padding:10px 12px; font-size:.84rem; }
+  .sun { width:58px; height:58px; right:18px; top:100px; }
+  .fish { font-size:30px; }
+  .trash { font-size:32px; }
+  .decorations button { flex:1 1 42%; }
+  .game-modal-box, .modal-box { padding:20px 16px; }
+  .references ul { padding-left:18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- BURBUJAS -->
+<div class="bubble b1" aria-hidden="true"></div>
+<div class="bubble b2"></div>
+<div class="bubble b3"></div>
+<div class="bubble b4"></div>
+<div class="bubble b5"></div>
+<div class="bubble b6"></div>
+
+<header>
+  <h1>🐢 Tortuguita Azul</h1>
+  <p>
+    Mi mascota del océano · Aprende, juega y conviértete
+    en un Guardián del Mar 🌊
+  </p>
+</header>
+
+<div class="theme-tools" aria-label="Plantillas de diseño">
+  <button type="button" onclick="cambiarPlantilla('clara')">☀️ Plantilla clara</button>
+  <button type="button" onclick="cambiarPlantilla('profunda')">🌊 Plantilla océano</button>
+</div>
+
+
+<main class="app">
+
+  <!-- ESTADISTICAS -->
+  <section class="stats">
+
+    <div class="stat">
+      <div class="stat-title">
+        <span>🍎 Hambre</span>
+        <span id="hungerText">70%</span>
+      </div>
+      <div class="bar">
+        <div id="hungerBar" class="fill hunger"></div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">
+        <span>⚡ Energía</span>
+        <span id="energyText">70%</span>
+      </div>
+      <div class="bar">
+        <div id="energyBar" class="fill energy"></div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">
+        <span>💖 Felicidad</span>
+        <span id="happyText">70%</span>
+      </div>
+      <div class="bar">
+        <div id="happyBar" class="fill happiness"></div>
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-title">
+        <span>💧 Océano</span>
+        <span id="cleanText">70%</span>
+      </div>
+      <div class="bar">
+        <div id="cleanBar" class="fill clean"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- OCEANO -->
+  <section class="ocean" id="ocean">\n    <div id="oceanSketch" aria-hidden="true"></div>
+
+    <div class="sun"></div>
+
+    <div class="turtle swim" id="turtle" onclick="tocarTortuga()">
+
+      <div class="tail"></div>
+
+      <div class="flipper f1"></div>
+      <div class="flipper f2"></div>
+      <div class="flipper f3"></div>
+
+      <div class="shell"></div>
+
+      <div class="head">
+        <div class="eye"></div>
+        <div class="mouth"></div>
+      </div>
+
+    </div>
+
+    <div class="turtle-message" id="message">
+      <strong>🐢 Tortuguita:</strong>
+      ¡Hola! Soy Azul. ¿Quieres ayudarme a cuidar nuestro océano?
+    </div>
+
+    <div class="fish fish1 clickable-marine" onclick="mostrarVentana('🐠','¡Encontraste un pez!','Los peces son una parte fundamental de las redes alimentarias marinas.','💙 ¡Sigue explorando!')">🐠</div>
+    <div class="fish fish2 clickable-marine" onclick="mostrarVentana('🐟','¡Encontraste un pez!','La biodiversidad marina ayuda a mantener el equilibrio de los ecosistemas.','💙 ¡Sigue explorando!')">🐟</div>
+    <div class="fish fish3 clickable-marine" onclick="mostrarVentana('🐡','¡Encontraste un pez!','Cada especie cumple una función dentro del ecosistema marino.','💙 ¡Sigue explorando!')">🐡</div>
+
+    <div class="coral coral1" aria-label="Coral">
+      <span class="branch b1"></span><span class="branch b2"></span><span class="branch b3"></span>
+      <span class="tip t1"></span><span class="tip t2"></span><span class="tip t3"></span>
+    </div>
+    <div class="coral coral2" aria-label="Coral">
+      <span class="branch b1"></span><span class="branch b2"></span><span class="branch b3"></span>
+      <span class="tip t1"></span><span class="tip t2"></span><span class="tip t3"></span>
+    </div>
+    <div class="coral coral3" aria-label="Coral">
+      <span class="branch b1"></span><span class="branch b2"></span><span class="branch b3"></span>
+      <span class="tip t1"></span><span class="tip t2"></span><span class="tip t3"></span>
+    </div>
+
+    <div class="jellyfish jelly1" aria-label="Medusa">
+      <span class="cap"></span><span class="tentacle t1"></span><span class="tentacle t2"></span><span class="tentacle t3"></span>
+    </div>
+    <div class="jellyfish jelly2" aria-label="Medusa">
+      <span class="cap"></span><span class="tentacle t1"></span><span class="tentacle t2"></span><span class="tentacle t3"></span>
+    </div>
+
+    <!-- BASURA -->
+    <div class="trash trash1" onclick="recogerBasura(this)">🧴</div>
+    <div class="trash trash2" onclick="recogerBasura(this)">🥤</div>
+    <div class="trash trash3" onclick="recogerBasura(this)">🛍️</div>
+    <div class="trash trash4" onclick="recogerBasura(this)">🗑️</div>
+
+  </section>
+
+  <!-- BOTONES -->
+  <section class="controls">
+
+    <button class="primary" onclick="abrirComida()">
+      🍎 Alimentar
+    </button>
+
+    <button onclick="jugar()">
+      🏊 Jugar
+    </button>
+
+    <button onclick="limpiar()">
+      🧹 Limpiar
+    </button>
+
+    <button onclick="datoAleatorio()">
+      📚 Aprender
+    </button>
+
+    <button onclick="celebrar()">
+      💙 Abrazar
+    </button>
+
+    <button onclick="accionAleatoria()">
+      🎲 Sorpresa
+    </button>
+
+  </section>
+
+  <section class="grid">
+
+    <!-- DATOS -->
+    <article class="card">
+
+      <h2>🌎 Aprende con Azul</h2>
+
+      <div class="fact" id="fact">
+        <div class="fact-number">ODS 14</div>
+        Conservar y utilizar sosteniblemente los océanos,
+        los mares y los recursos marinos.
+      </div>
+
+      <br>
+
+      <button class="primary" onclick="datoAleatorio()">
+        ✨ Dame otro dato
+      </button>
+
+    </article>
+
+    <!-- DECORACION -->
+    <article class="card">
+
+      <h2>🎨 Diseña su océano</h2>
+
+      <p>
+        Cada elemento que agregues representa un ecosistema
+        marino más diverso.
+      </p>
+
+<div class="decorations">
+
+  <button onclick="agregarElemento('🐚')">
+    🐚 Concha
+  </button>
+
+  <button onclick="agregarElemento('🐠')">
+    🐠 Pez
+  </button>
+
+  <button onclick="agregarElemento('🐙')">
+    🐙 Pulpo
+  </button>
+
+  <button onclick="agregarElemento('⭐')">
+    ⭐ Estrella de mar
+  </button>
+
+  <button onclick="agregarElemento('🦀')">
+    🦀 Cangrejo
+  </button>
+
+  <button onclick="agregarElemento('🌿')">
+    🌿 Alga
+  </button>
+
+</div>
+
+        
+
+      <p id="decorationMessage">
+        ¡Crea un océano lleno de vida!
+      </p>
+
+    </article>
+
+    <!-- PROGRESO -->
+    <article class="card">
+
+      <h2>🏆 Mis logros</h2>
+
+      <div class="badges" id="badges">
+
+        <div class="badge">
+          🐣 Primer cuidado
+        </div>
+
+        <div class="badge">
+          🌊 Guardián del agua
+        </div>
+
+      </div>
+
+      <p>
+        Acciones positivas:
+        <strong id="actions">0</strong>
+      </p>
+
+    </article>
+
+    <!-- OBJETIVO -->
+    <article class="card">
+
+      <h2>🎯 Nuestra misión</h2>
+
+      <p>
+        Ayuda a Azul a mantener su hogar saludable.
+        Cada acción positiva mejora el océano.
+      </p>
+
+      <ul>
+        <li>💧 Mantener limpio el mar.</li>
+        <li>🐠 Proteger la biodiversidad.</li>
+        <li>🪸 Cuidar los ecosistemas.</li>
+        <li>♻️ Reducir los residuos.</li>
+        <li>🌎 Utilizar responsablemente los recursos marinos.</li>
+      </ul>
+
+    </article>
+
+  </section>
+
+
+    <!-- REFERENCIAS Y RECURSOS -->
+    <section class="card references" id="referencias">
+      <h2>🔎 Referencias para aprender más</h2>
+      <p>Estas fuentes respaldan los mensajes educativos sobre océanos, biodiversidad y residuos marinos.</p>
+      <ul>
+        <li><a href="https://sdgs.un.org/goals/goal14" target="_blank" rel="noopener noreferrer">Naciones Unidas — Objetivo de Desarrollo Sostenible 14: Vida submarina</a>. Conservación y uso sostenible de océanos y recursos marinos.</li>
+        <li><a href="https://oceanservice.noaa.gov/facts/marinedebris.html" target="_blank" rel="noopener noreferrer">NOAA Ocean Service — What is marine debris?</a>. Información sobre residuos marinos y sus efectos.</li>
+        <li><a href="https://www.fisheries.noaa.gov/sea-turtles" target="_blank" rel="noopener noreferrer">NOAA Fisheries — Sea Turtles</a>. Información sobre tortugas marinas y su conservación.</li>
+        <li><a href="https://www.unep.org/topics/ocean-seas-and-coasts" target="_blank" rel="noopener noreferrer">Programa de las Naciones Unidas para el Medio Ambiente — Océanos, mares y costas</a>. Contexto sobre protección de ecosistemas marinos.</li>
+      </ul>
+      <p><small>Consulta las fuentes para ampliar la información; el juego es un recurso educativo y no sustituye materiales científicos especializados.</small></p>
+    </section>
+
+</main>
+
+<!-- MODAL COMIDA -->
+
+<div class="modal" id="foodModal">
+
+  <div class="modal-box">
+
+    <h2>🍎 ¿Qué quieres darle a Azul?</h2>
+
+    <p>
+      Elige un alimento apropiado para una tortuga marina.
+    </p>
+
+    <span class="food" onclick="darComida('🥬')">🥬</span>
+    <span class="food" onclick="darComida('🦐')">🦐</span>
+    <span class="food" onclick="darComida('🪼')">🪼</span>
+
+    <br><br>
+
+    <button onclick="cerrarComida()">
+      Cerrar
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- VENTANA CENTRAL -->
+<div class="game-modal" id="gameModal">
+  <div class="game-modal-box">
+    <div class="game-modal-icon" id="gameModalIcon">🌊</div>
+    <h2 id="gameModalTitle">¡Muy bien!</h2>
+    <div class="reward" id="gameModalReward">+1 acción positiva</div>
+    <p id="gameModalText">Tu acción ayudó al océano.</p>
+    <button class="continue" onclick="cerrarGameModal()">✨ Continuar jugando</button>
+  </div>
+</div>
+
+<script>
+
+
+function mostrarVentana(icono,titulo,texto,recompensa){
+  document.getElementById("gameModalIcon").textContent=icono;
+  document.getElementById("gameModalTitle").textContent=titulo;
+  document.getElementById("gameModalText").textContent=texto;
+  document.getElementById("gameModalReward").textContent=recompensa;
+  document.getElementById("gameModal").classList.add("show");
+}
+function cerrarGameModal(){
+  document.getElementById("gameModal").classList.remove("show");
+}
+document.addEventListener("keydown",function(e){
+  if(e.key==="Escape") cerrarGameModal();
+});
+
+/* ==============================
+   ESTADO DEL JUEGO
+================================ */
+
+let estado = {
+  hambre:70,
+  energia:70,
+  felicidad:70,
+  oceano:70,
+  acciones:0
+};
+
+const datos = [
+
+  "🌊 El océano cubre aproximadamente el 71% de la superficie de nuestro planeta.",
+
+  "🐢 Las tortugas marinas pueden confundir bolsas de plástico con medusas, uno de sus alimentos.",
+
+  "♻️ Reducir el uso de plásticos de un solo uso ayuda a disminuir los residuos que pueden llegar al mar.",
+
+  "🪸 Los arrecifes de coral proporcionan refugio y alimento para muchas especies marinas.",
+
+  "🐠 La biodiversidad marina es fundamental para mantener ecosistemas saludables.",
+
+  "🌎 El ODS 14 busca conservar y utilizar sosteniblemente los océanos, mares y recursos marinos.",
+
+  "💧 Mantener los océanos limpios ayuda a proteger a las especies marinas y sus hábitats.",
+
+  "🎣 La pesca sostenible busca que podamos aprovechar los recursos marinos sin destruir las poblaciones de peces.",
+
+  "🌿 Los ecosistemas costeros y marinos también contribuyen al bienestar de las comunidades humanas.",
+
+  "💙 Las pequeñas acciones cotidianas pueden contribuir a reducir nuestro impacto sobre los ecosistemas marinos."
+
+];
+
+
+/* ==============================
+   ACTUALIZAR INTERFAZ
+================================ */
+
+function limitar(valor){
+  return Math.max(0,Math.min(100,valor));
+}
+
+function actualizar(){
+
+  estado.hambre=limitar(estado.hambre);
+  estado.energia=limitar(estado.energia);
+  estado.felicidad=limitar(estado.felicidad);
+  estado.oceano=limitar(estado.oceano);
+
+  document.getElementById("hungerBar").style.width=estado.hambre+"%";
+  document.getElementById("energyBar").style.width=estado.energia+"%";
+  document.getElementById("happyBar").style.width=estado.felicidad+"%";
+  document.getElementById("cleanBar").style.width=estado.oceano+"%";
+
+  document.getElementById("hungerText").textContent=Math.round(estado.hambre)+"%";
+  document.getElementById("energyText").textContent=Math.round(estado.energia)+"%";
+  document.getElementById("happyText").textContent=Math.round(estado.felicidad)+"%";
+  document.getElementById("cleanText").textContent=Math.round(estado.oceano)+"%";
+
+  document.getElementById("actions").textContent=estado.acciones;
+
+  cambiarOceanVisual();
+
+}
+
+
+/* ==============================
+   CAMBIO DEL OCEANO
+================================ */
+
+function cambiarOceanVisual(){
+
+  const ocean=document.getElementById("ocean");
+
+  let intensidad=estado.oceano;
+
+  if(intensidad>80){
+
+    ocean.style.background=
+      "linear-gradient(#50e9f3 0%,#13b7d5 45%,#07568b 100%)";
+
+  }else if(intensidad>50){
+
+    ocean.style.background=
+      "linear-gradient(#4bd2df 0%,#168fb9 45%,#07517c 100%)";
+
+  }else{
+
+    ocean.style.background=
+      "linear-gradient(#72b9bf 0%,#3e7e91 45%,#294e63 100%)";
+
+  }
+
+}
+
+
+/* ==============================
+   MENSAJE DE TORTUGA
+================================ */
+
+function hablar(texto){
+
+  document.getElementById("message").innerHTML=
+    "<strong>🐢 Azul:</strong> "+texto;
+
+}
+
+
+/* ==============================
+   ALIMENTAR
+================================ */
+
+function abrirComida(){
+
+  document.getElementById("foodModal")
+    .classList.add("show");
+
+}
+
+function cerrarComida(){
+
+  document.getElementById("foodModal")
+    .classList.remove("show");
+
+}
+
+function darComida(comida){
+
+  estado.hambre+=20;
+  estado.felicidad+=8;
+  estado.energia+=5;
+  estado.acciones++;
+
+  cerrarComida();
+
+  hablar(
+    "¡Ñam! "+comida+
+    " ¡Gracias por cuidarme! Alimentar responsablemente a los animales marinos también forma parte de respetar la vida del océano."
+  );
+
+  actualizar();
+
+  comprobarLogros();
+
+  mostrarVentana(
+    "🐢",
+    "¡Azul está feliz!",
+    "Le diste alimento y ayudaste a mantener saludable a tu tortuguita.",
+    "+20 hambre · +8 felicidad · +5 energía"
+  );
+
+}
+
+
+/* ==============================
+   JUGAR
+================================ */
+
+function jugar(){
+
+  if(estado.energia < 15){
+
+    hablar("Estoy cansadita 🥺. Necesito descansar antes de jugar.");
+
+    mostrarVentana(
+      "🥺",
+      "Azul necesita descansar",
+      "Su energía está demasiado baja para jugar.",
+      "💙 Cuida su energía"
+    );
+
+    return;
+  }
+
+  estado.energia -= 12;
+  estado.felicidad += 18;
+  estado.acciones++;
+
+  const turtle = document.getElementById("turtle");
+
+  turtle.classList.remove("giro");
+
+  void turtle.offsetWidth;
+
+  // Primero hace el giro
+  turtle.classList.add("giro");
+
+  hablar("¡Mira cómo giro! 🐢💫");
+
+  actualizar();
+  comprobarLogros();
+
+  // ESPERA A QUE TERMINE EL GIRO
+  setTimeout(() => {
+
+    turtle.classList.remove("giro");
+
+    // Ahora aparece la ventana
+    mostrarVentana(
+      "💫",
+      "¡Azul dio una vuelta!",
+      "Azul hizo un giro completo porque jugar la llena de energía y felicidad.",
+      "-12 energía · +18 felicidad · +1 acción"
+    );
+
+  }, 950);
+
+}
+/* ==============================
+   LIMPIAR
+================================ */
+
+function limpiar(){
+
+  estado.oceano+=15;
+  estado.felicidad+=10;
+  estado.acciones++;
+
+  hablar("¡Mira qué limpio está! 🌊 Reducir la contaminación ayuda a proteger a las especies y sus hábitats.");
+
+  actualizar();
+  comprobarLogros();
+
+  mostrarVentana(
+    "🌊",
+    "¡Océano más limpio!",
+    "Limpiar reduce la contaminación y ayuda a conservar los hábitats de las especies marinas.",
+    "+15 océano · +10 felicidad · +1 acción"
+  );
+}
+
+
+/* ==============================
+   RECOGER BASURA
+================================ */
+
+function recogerBasura(elemento){
+
+  elemento.style.transform="scale(0)";
+  elemento.style.opacity="0";
+  elemento.style.pointerEvents="none";
+
+  setTimeout(()=>{ if(elemento.parentNode) elemento.remove(); },300);
+
+  estado.oceano+=8;
+  estado.felicidad+=5;
+  estado.acciones++;
+
+  hablar("¡Encontraste basura! ♻️ Los residuos pueden afectar a tortugas, peces, aves y otros animales marinos.");
+
+  actualizar();
+  comprobarLogros();
+
+  mostrarVentana(
+    "♻️",
+    "¡Basura eliminada!",
+    "Quitaste un residuo del océano. Esto ayuda a proteger a tortugas, peces, aves y otros animales marinos.",
+    "+8 océano · +5 felicidad · +1 acción"
+  );
+}
+
+
+/* ==============================
+   DATOS EDUCATIVOS
+================================ */
+
+function datoAleatorio(){
+
+  const dato=
+    datos[Math.floor(Math.random()*datos.length)];
+
+  document.getElementById("fact").innerHTML=
+    "<div class='fact-number'>🌊 ¿Sabías que...?</div>"+
+    dato;
+
+  hablar(
+    "¡Tengo un dato nuevo para ti! 📚 ¡Aprender también es una forma de proteger el océano!"
+  );
+
+}
+
+
+/* ==============================
+   TOCAR TORTUGA
+================================ */
+
+function tocarTortuga(){
+
+  estado.felicidad+=5;
+  estado.acciones++;
+
+  hablar(
+    "¡Gracias por el cariño! 💙 Recuerda: los océanos saludables son importantes para toda la vida del planeta."
+  );
+
+  actualizar();
+
+}
+
+
+/* ==============================
+   DECORACIONES
+================================ */
+
+function agregarElemento(simbolo){
+
+  const ocean=document.getElementById("ocean");
+  const nuevo=document.createElement("div");
+
+  nuevo.style.position="absolute";
+  nuevo.style.left=Math.floor(Math.random()*80+5)+"%";
+  nuevo.style.top=Math.floor(Math.random()*55+35)+"%";
+  nuevo.style.zIndex="6";
+
+  let nombre="¡Nuevo animal marino!";
+  let icono=simbolo;
+  let mensaje="Agregar especies ayuda a representar un ecosistema marino con mayor biodiversidad.";
+
+  if(simbolo==="🪸"){
+    nuevo.className="coral clickable-marine";
+    nuevo.innerHTML='<span class="branch b1"></span><span class="branch b2"></span><span class="branch b3"></span><span class="tip t1"></span><span class="tip t2"></span><span class="tip t3"></span>';
+    nombre="¡Nuevo coral!";
+    icono="🪸";
+    mensaje="Los arrecifes de coral son refugio y alimento para muchas especies. ¡Tu océano ahora tiene un nuevo hogar para la vida marina!";
+  }else if(simbolo==="🪼"){
+    nuevo.className="jellyfish clickable-marine";
+    nuevo.innerHTML='<span class="cap"></span><span class="tentacle t1"></span><span class="tentacle t2"></span><span class="tentacle t3"></span>';
+    nombre="¡Nueva medusa!";
+    icono="🪼";
+    mensaje="Las medusas forman parte de las cadenas alimentarias marinas. ¡Tu océano es ahora más diverso!";
+  }else{
+    nuevo.textContent=simbolo;
+    nuevo.className="clickable-marine";
+    nuevo.style.fontSize="55px";
+    nuevo.style.animation="nadar 3s ease-in-out infinite";
+  }
+
+  nuevo.onclick=function(e){
+    e.stopPropagation();
+    mostrarVentana(
+      icono,
+      nombre,
+      mensaje,
+      "+3 océano · +4 felicidad · +1 acción"
+    );
+  };
+
+  ocean.appendChild(nuevo);
+
+  estado.felicidad+=4;
+  estado.oceano+=3;
+  estado.acciones++;
+
+  document.getElementById("decorationMessage").textContent="✨ ¡Has creado un nuevo elemento para el ecosistema!";
+
+  hablar("¡Qué bonito! "+icono+" Un ecosistema con diferentes especies puede ser más diverso y saludable.");
+
+  actualizar();
+  comprobarLogros();
+
+  mostrarVentana(
+    icono,
+    nombre,
+    mensaje,
+    "+3 océano · +4 felicidad · +1 acción"
+  );
+}
+
+
+/* ==============================
+   ABRAZAR
+================================ */
+
+function celebrar(){
+
+  estado.felicidad += 12;
+  estado.acciones++;
+
+  const turtle = document.getElementById("turtle");
+
+  turtle.style.animation = "none";
+
+  turtle.classList.remove("acercar");
+
+  void turtle.offsetWidth;
+
+  // Primero se acerca
+  turtle.classList.add("acercar");
+
+  hablar("¡Awww! 💙 ¡Voy hacia ti para darte un abrazo!");
+
+  actualizar();
+  comprobarLogros();
+
+  // Esperamos a que termine el acercamiento
+  setTimeout(() => {
+
+    turtle.classList.remove("acercar");
+
+    // Regresa a su animación normal
+    turtle.style.animation =
+      "nadar 2.5s ease-in-out infinite";
+
+    // AHORA aparece la ventana
+    mostrarVentana(
+      "💙",
+      "¡Azul se acercó a ti!",
+      "Azul nadó hacia ti para recibir cariño. ¡Tu tortuguita está muy feliz!",
+      "+12 felicidad · +1 acción"
+    );
+
+  }, 1250);
+
+}
+
+/* ==============================
+   LOGROS
+================================ */
+
+function comprobarLogros(){
+
+  const badges=
+    document.getElementById("badges");
+
+  if(estado.acciones>=5 &&
+     !document.getElementById("badge5")){
+
+    const b=document.createElement("div");
+
+    b.id="badge5";
+    b.className="badge";
+    b.textContent="🌱 Amigo del océano";
+
+    badges.appendChild(b);
+
+  }
+
+  if(estado.acciones>=10 &&
+     !document.getElementById("badge10")){
+
+    const b=document.createElement("div");
+
+    b.id="badge10";
+    b.className="badge";
+    b.textContent="🪸 Protector de arrecifes";
+
+    badges.appendChild(b);
+
+  }
+
+  if(estado.oceano>=90 &&
+     !document.getElementById("badgeOcean")){
+
+    const b=document.createElement("div");
+
+    b.id="badgeOcean";
+    b.className="badge";
+    b.textContent="🌊 Guardián del Océano";
+
+    badges.appendChild(b);
+
+    hablar(
+      "¡Lo conseguimos! 🌎💙 Nuestro océano está mucho más saludable."
+    );
+
+  }
+
+}
+
+
+/* ==============================
+   DESGASTE NATURAL
+================================ */
+
+setInterval(()=>{
+
+  estado.hambre-=2;
+  estado.energia-=1;
+
+  if(estado.hambre<30){
+
+    hablar(
+      "Tengo un poquito de hambre... 🍎 ¿Me cuidas?"
+    );
+
+  }
+
+  actualizar();
+
+},10000);
+
+
+/* ==============================
+   INICIO
+================================ */
+
+
+/* ===== PLANTILLAS DE DISEÑO ===== */
+function cambiarPlantilla(tipo) {
+  document.body.classList.toggle("theme-deep", tipo === "profunda");
+  hablar(tipo === "profunda"
+    ? "¡Activaste la plantilla Océano profundo! 🌊"
+    : "¡Activaste la plantilla clara! ☀️");
+}
+
+/* ===== ALEATORIEDAD: SELECCIÓN DE ACCIONES ===== */
+function accionAleatoria() {
+  const acciones = [
+    () => jugar(),
+    () => limpiar(),
+    () => datoAleatorio(),
+    () => celebrar(),
+    () => agregarElemento(["🐚", "🐠", "🐙", "⭐", "🦀", "🌿"][Math.floor(Math.random() * 6)])
+  ];
+  acciones[Math.floor(Math.random() * acciones.length)]();
+}
+
+actualizar();
+
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<script>
+(function iniciarParticulasMarinas() {
+  if (typeof p5 === "undefined") return;
+  const host = document.getElementById("oceanSketch");
+  if (!host) return;
+
+  new p5((p) => {
+    let particulas = [];
+    const cantidadBase = 34;
+    class Particula {
+      constructor() { this.reiniciar(true); }
+      reiniciar(aleatoria = false) {
+        this.x = Math.random() * p.width;
+        this.y = aleatoria ? Math.random() * p.height : p.height + Math.random() * 30;
+        this.tamano = 2 + Math.random() * 5;
+        this.velocidad = 0.35 + Math.random() * 1.1;
+        this.fase = Math.random() * 1000;
+        this.opacidad = 70 + Math.random() * 100;
+      }
+      mover() {
+        // El ruido de Perlin crea una deriva orgánica, como partículas en el agua.
+        const deriva = p.noise(this.x * 0.003, this.y * 0.003, this.fase) - 0.5;
+        this.x += deriva * 1.8;
+        this.y -= this.velocidad;
+        this.fase += 0.003;
+        if (this.y < -10) this.reiniciar();
+        this.x = (this.x + p.width) % p.width;
+      }
+      dibujar() {
+        p.noStroke();
+        p.fill(230, 252, 255, this.opacidad);
+        p.circle(this.x, this.y, this.tamano);
+      }
+    }
+    p.setup = () => {
+      const lienzo = p.createCanvas(host.clientWidth, host.clientHeight);
+      lienzo.parent(host);
+      p.clear();
+      particulas = Array.from({length: cantidadBase}, () => new Particula());
+    };
+    p.draw = () => {
+      p.clear();
+      particulas.forEach(particula => { particula.mover(); particula.dibujar(); });
+    };
+    p.windowResized = () => {
+      if (host.clientWidth > 0 && host.clientHeight > 0) {
+        p.resizeCanvas(host.clientWidth, host.clientHeight);
+      }
+    };
+  }, host);
+})();
+</script>
+
+</body>
+</html>
